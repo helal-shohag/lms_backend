@@ -70,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "lms.wsgi.application"
-
+AUTH_USER_MODEL = 'users.UserModel'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
