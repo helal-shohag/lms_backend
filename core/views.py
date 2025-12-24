@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
+from .models import Category,Course
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Category
@@ -21,3 +22,12 @@ def categoryview(request):
             if serializers.is_valid():
                 serializers.save()
                 return Response(serializers.data,status=201)
+@api_view(['GET','POST'])
+def courseview(request):
+    if request.method == 'GET':
+        if request.user.role in ['student','admin']:
+            course = Course.objects.all()
+        elif request.user.role == 'instructor':
+            course = Course.objects.filter(instructor=request.user)
+        else:
+            return Response({'error':'Invalid role'},status=403)        
